@@ -1,0 +1,86 @@
+openapi: 3.1.0
+info:
+  title: Robots.txt
+  description: |
+    Robot navigator. 
+    
+    ## Base URL
+    All paths are relative to `https://server.stumph-stevnsvig.dk/v1`
+
+    ## Features:
+
+    * Define a grid 
+    * Spawn in a robot to navigate the grid
+  contact:
+    email: webhamster@stevnsvig.com
+  license:
+    name: proprietary
+    url: about:blank
+  version: 1.0.0
+
+servers:
+  - url: https://server.stumph-stevnsvig.dk/v1
+    description: Staging server
+
+paths:
+  /board:
+    put:
+      tags:
+        - board
+      summary: Create a new empty board
+
+  /robot:
+    get:
+      tags:
+        - robot
+      summary: get all robots on a board
+
+components:
+  schemas:
+    Board:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Identifier for use in requests
+          examples: [188, 1999]
+        rows:
+          type: integer
+          format: int64
+          description: number of rows on the board
+          minimum: 2
+          maximum: 4294967295
+          examples: [8,16,64 188, 1999]
+        columns:
+          type: integer
+          format: int64
+          description: number of rows on the board
+          minimum: 2
+          maximum: 4294967295
+          examples: [8,16,64 188, 1999]
+    Robot:
+      type: object
+      properties:
+        x:
+          type: integer
+          format: int64
+          description: x-coordinate of the robot
+          minimum: 1
+          maximum: 4294967295
+          examples: [8,16,42 188, 1997]
+        y:
+          type: integer
+          format: int64
+          description: y-coordinate of the robot
+          minimum: 1
+          maximum: 4294967295
+          examples: [8,16,64 188, 1998]
+        direction:
+          type: string
+          description: Direction the robot is facing
+          examples: [approved]
+          enum:
+            - placed
+            - approved
+            - delivered

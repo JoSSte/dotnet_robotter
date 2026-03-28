@@ -7,13 +7,17 @@ Jonas Stevnsvig
 ### Overordnet
 
 1. Erstat M (move?) med F for forward for mere letlæselighed, samt mulighed for R (Reverse) i fremtiden
-2. Koordinatsystem er ikke (nødvendigvis) unikt for én robot
-3. Support for flere kommandoer
-4. Dokumentation er på engelsk
+1. Koordinatsystem er ikke (nødvendigvis) unikt for én robot
+1. Support for flere kommandoer
+1. Dokumentation er på engelsk
 
 ### Koordinater
 
 * Minimum bræt er 2x2
+
+### Robotter
+
+* ...
 
 ## Antagelser
 

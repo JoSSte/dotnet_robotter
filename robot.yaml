@@ -28,12 +28,148 @@ paths:
       tags:
         - board
       summary: Create a new empty board
-
+    get:
+      tags:
+        - board
+      summary: Get a list of boards
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Board'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - board
+      summary: delete a board
+      description: deletes a board and all related robots
+  /board/{boardId}:
+    get:
+      tags:
+        - board
+      summary: Get a board by id
+      description: 
+      operationId: getBoardById
+      parameters:
+        - name: boardId
+          in: path
+          description: the board to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Board'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /board/{boardId}/robot:
+    get:
+      tags:
+        - robot
+        - board
+      summary: Get robots on a board
+      description: 
+      operationId: getRobotsOnBoard
+      parameters:
+        - name: boardId
+          in: path
+          description: the board to get robots from
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Robot'
   /robot:
     get:
       tags:
         - robot
-      summary: get all robots on a board
+      summary: get all robots that exist
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Robot'
+  /robot/{id}:
+    get:
+      tags:
+        - robot
+      summary: get robot by id
+      description: 
+      operationId: getRobotById
+      parameters:
+        - name: id
+          in: path
+          description: the robot to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Robot'
+  /robot/{id}/move:
+    put:
+      tags:
+        - robot
+      summary: issue move command to robot
+      description: 
+      operationId: moveRobot
+      parameters:
+        - name: id
+          in: path
+          description: the robot to move
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Move command
+        content:
+          application/json:
+            schema:
+              type: string
+              examples: ["LLLFRR","FFFF"]
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoordinateDirection'
 
 components:
   schemas:
@@ -62,26 +198,63 @@ components:
     Robot:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
+          description: Identifier for use in requests
+          examples: [1, 2]
+        coordinates:
+          $ref: '#/components/schemas/CoordinateDirection'
+    Coordinate:
+      type: object
+      properties:
         x:
           type: integer
           format: int64
-          description: x-coordinate of the robot
+          description: x-coordinate
           minimum: 1
           maximum: 4294967295
           examples: [8,16,42 188, 1997]
         y:
           type: integer
           format: int64
-          description: y-coordinate of the robot
+          description: y-coordinate
           minimum: 1
           maximum: 4294967295
           examples: [8,16,64 188, 1998]
+    CoordinateDirection:
+      type: object
+      properties:
+        x:
+          type: integer
+          format: int64
+          description: x-coordinate
+          minimum: 1
+          maximum: 4294967295
+          examples: [8,16,42 188, 19497]
+        y:
+          type: integer
+          format: int64
+          description: y-coordinate
+          minimum: 1
+          maximum: 4294967295
+          examples: [8,16,64 188, 19958]
         direction:
           type: string
-          description: Direction the robot is facing
-          examples: [N]
+          description: Direction the object is facing
+          examples: [N,S,E,W]
           enum:
             - N
             - S
             - E
             - W
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message

@@ -1,1 +1,47 @@
+# Visual Studio / .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.cache
+
+# Rider
+.idea/
+*.sln.iml
+
+# Build outputs
+**/bin/
+**/obj/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# dotnet watch
+**/.vs/
+
+# Test results
+TestResults/
+
+# Playwright
+playwright-report/
+
+# Generated code
+generated/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
 *.pdf

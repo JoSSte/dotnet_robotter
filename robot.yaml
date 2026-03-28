@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: Robots.txt
   description: |
-    Robot navigator. 
+    Robot navigator. Move a robot around via an API
     
     ## Base URL
     All paths are relative to `https://server.stumph-stevnsvig.dk/v1`
@@ -21,10 +21,9 @@ info:
 servers:
   - url: https://server.stumph-stevnsvig.dk/v1
     description: Staging server
-
 paths:
   /board:
-    put:
+    post:
       tags:
         - board
       summary: Create a new empty board
@@ -47,11 +46,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-    delete:
-      tags:
-        - board
-      summary: delete a board
-      description: deletes a board and all related robots
   /board/{boardId}:
     get:
       tags:
@@ -83,6 +77,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - board
+      summary: delete a board
+      description: deletes a board and all related robots
+      parameters:
+        - name: boardId
+          in: path
+          description: the board to get
+          required: true
+          schema:
+            type: integer
   /board/{boardId}/robot:
     get:
       tags:
@@ -121,7 +127,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Robot'
-  /robot/{id}:
+  /robot/{robotId}:
     get:
       tags:
         - robot
@@ -129,7 +135,7 @@ paths:
       description: 
       operationId: getRobotById
       parameters:
-        - name: id
+        - name: robotId
           in: path
           description: the robot to get
           required: true
@@ -142,6 +148,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Robot'
+    delete:
+      tags:
+        - robot
+      summary: delete a robot
+      description: deletes a robot
+      operationId: deleteRobot
+      parameters:
+        - name: robotId
+          in: path
+          description: the robot to delte
+          required: true
+          schema:
+            type: integer
   /robot/{id}/move:
     put:
       tags:
@@ -170,7 +189,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CoordinateDirection'
-
 components:
   schemas:
     Board:
@@ -206,6 +224,7 @@ components:
         coordinates:
           $ref: '#/components/schemas/CoordinateDirection'
     Coordinate:
+      description: Coordinates of an object
       type: object
       properties:
         x:
@@ -222,32 +241,28 @@ components:
           minimum: 1
           maximum: 4294967295
           examples: [8,16,64 188, 1998]
+      required:
+        - x
+        - y
     CoordinateDirection:
-      type: object
-      properties:
-        x:
-          type: integer
-          format: int64
-          description: x-coordinate
-          minimum: 1
-          maximum: 4294967295
-          examples: [8,16,42 188, 19497]
-        y:
-          type: integer
-          format: int64
-          description: y-coordinate
-          minimum: 1
-          maximum: 4294967295
-          examples: [8,16,64 188, 19958]
-        direction:
-          type: string
-          description: Direction the object is facing
-          examples: [N,S,E,W]
-          enum:
-            - N
-            - S
-            - E
-            - W
+      description: The coordinates and direction of the object
+      allOf:
+        - $ref: '#/components/schemas/Coordinate'
+        - type: object
+          direction:
+            type: string
+            description: Direction the object is facing
+            examples: [N,S,E,W]
+            enum:
+              - N
+              - S
+              - E
+              - W
+      required:
+        - x
+        - y
+        - direction
+      examples: [{"x":45,"y":20, "direction": "E"},{"x":1,"y":1, "direction": "N"}]
     Error:
       type: object
       properties:
@@ -258,3 +273,4 @@ components:
       required:
         - code
         - message
+

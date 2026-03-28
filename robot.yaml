@@ -79,8 +79,9 @@ components:
         direction:
           type: string
           description: Direction the robot is facing
-          examples: [approved]
+          examples: [N]
           enum:
-            - placed
-            - approved
-            - delivered
+            - N
+            - S
+            - E
+            - W

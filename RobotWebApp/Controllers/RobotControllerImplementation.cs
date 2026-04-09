@@ -52,7 +52,7 @@ namespace RobotWebApp.RobotBoard
             return Task.CompletedTask;
         }
 
-        public Task<CoordinateDirection> MoveRobotAsync(int robotId, string body)
+        public Task<CoordinateDirection> MoveRobotAsync(int robotId, string moveString)
         {
             //Check that the robot exists
             var robot = _robots.Find(r => (int)r.Id == robotId);
@@ -62,7 +62,7 @@ namespace RobotWebApp.RobotBoard
                 //TODO: return nice error according to spec
                 throw new ArgumentException($"Robot {robotId} not found.");
             }
-            else if (body == "")
+            else if (moveString == "")
             {
                 //TODO: return nice error according to spec
                 throw new ArgumentException("Empty move string is not allowed.");
@@ -70,7 +70,7 @@ namespace RobotWebApp.RobotBoard
             else
             {
                 // validate move string
-                if (!IsValidMoveString(body))
+                if (!IsValidMoveString(moveString))
                 {
                     //TODO: return nice error according to spec
                     throw new ArgumentException("Invalid move string.");
@@ -78,25 +78,28 @@ namespace RobotWebApp.RobotBoard
                 else
                 {
                     try
-                    {
+                    {  
+                        //TODO: fix wrong lookup: is using robot ID to lookup board
                         var board = _boards.Find(b => (int)b.Id == (int)robot.Id);
                         if (board == null)
                         {
                             throw new ArgumentException($"Board {(int)robot.Id} not found for robot {robotId}.");
                         }
-                        return Task.FromResult(MoveDirector.MoveRobot(robot, board, body).CoordinateDirection);
+                        Robot movedRobot = MoveDirector.MoveRobot(robot, board, moveString);
+                        
+                        //if we are here, the move string is valid and we can move the robot.
+                        //TODO: optimize
+                        _robots.RemoveAll(r => (int)r.Id == robotId);
+                        _robots.Add(movedRobot);
+                        return Task.FromResult(movedRobot.CoordinateDirection);
                     }
                     catch (InvalidOperationException ex)
                     {
+                        Console.WriteLine($"Invalid move for robot {robotId}: {ex.Message}");
+                        //TODO: return nice error according to spec
                         throw new ArgumentException("Invalid move command. would move robot past edge of board.");
 
                     }
-
-                    // If valid, move robot and update coordinates
-
-                    // return coordinates
-                    return Task.FromResult(robot.CoordinateDirection);
-                    
                 }
             }
         }

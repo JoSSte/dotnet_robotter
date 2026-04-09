@@ -2,24 +2,26 @@ namespace RobotWebApp.RobotBoard
 {
     public class MoveDirector
     {
-        public Robot MoveRobot(Robot robot, Board board, string move)
+        public Robot MoveRobot(Robot robot, Board board, string moveString)
         {
-            //TODO: assumes single move, should be able to handle multiple moves in a string, e.g. "LFRFF"
-            switch (move)
+            foreach (char move in moveString)
             {
-                case "L": 
-                    robot.CoordinateDirection.Direction = TurnLeft(robot.CoordinateDirection.Direction);
-                    break;
-                case "R": 
-                    robot.CoordinateDirection.Direction = TurnRight(robot.CoordinateDirection.Direction);
-                    break;
-                case "F": 
-                    robot.CoordinateDirection = MoveForward(robot, board);
-                    break;
-                default: 
-                throw new ArgumentException($"Invalid move command: {move}");
-            };
 
+                switch (move)
+                {
+                    case 'L':
+                        robot.CoordinateDirection.Direction = TurnLeft(robot.CoordinateDirection.Direction);
+                        break;
+                    case 'R':
+                        robot.CoordinateDirection.Direction = TurnRight(robot.CoordinateDirection.Direction);
+                        break;
+                    case 'F':
+                        robot.CoordinateDirection = MoveForward(robot, board);
+                        break;
+                    default:
+                        throw new ArgumentException($"Invalid move command: {move}");
+                }
+            }
             return robot;
         }
 

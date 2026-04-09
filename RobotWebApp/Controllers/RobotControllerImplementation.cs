@@ -83,7 +83,7 @@ namespace RobotWebApp.RobotBoard
                     // If valid, move robot and update coordinates
 
                     // return coordinates
-                    return Task.FromResult(robot.Coordinates);
+                    return Task.FromResult(robot.CoordinateDirection);
                     
                 }
             }
@@ -104,4 +104,5 @@ namespace RobotWebApp.RobotBoard
             return true;
         }
     }
+
 }

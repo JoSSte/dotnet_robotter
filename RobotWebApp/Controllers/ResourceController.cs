@@ -333,7 +333,7 @@ namespace RobotWebApp.RobotBoard
         public long Id { get; set; }
 
         [Newtonsoft.Json.JsonProperty("coordinates", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public CoordinateDirection Coordinates { get; set; }
+        public CoordinateDirection CoordinateDirection { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 

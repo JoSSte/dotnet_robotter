@@ -49,11 +49,12 @@ _Note `-k` because certificate is untrusted. DO NOT USE THAT SWITCH TO VERIFY PR
 
 `curl -k -X 'POST' https://localhost:7182/v1/board/1/robot -H 'accept: application/json' -H 'Content-Type: application/json' -d '{"id": 1, "coordinates": {"x": 45, "y": 20, "direction": "E"}}'`
 
-### Move Robot
-
-`curl -k -X 'PUT' 'https://localhost:7182/v1/robot/1/move' -H 'accept: application/json' -H 'Content-Type: application/json' -d '"LLLFRR"'`
-
 ### Get all Robots on Board
 
 `curl -k --request GET  https://localhost:7182/v1/board/1/robot`
 
+### Move Robot
+
+THIS IS _**NOT** YET FUNCTIONAL_
+
+`curl -k -X 'PUT' 'https://localhost:7182/v1/robot/1/move' -H 'accept: application/json' -H 'Content-Type: application/json' -d '"LLLFRR"'`

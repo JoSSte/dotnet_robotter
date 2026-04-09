@@ -1,4 +1,7 @@
 # Fremgangsmåde
 
-1. noter alle tanker
+1. Notér alle tanker
 1. Start med swagger (OpenAPI 3.1.0)
+1. Generer REST kode fra swagger med NSwag
+1. Implementér funktionsklasser
+1. Test

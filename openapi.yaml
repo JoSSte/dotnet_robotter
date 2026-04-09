@@ -5,7 +5,7 @@ info:
     Robot navigator. Move a robot around via an API
     
     ## Base URL
-    All paths are relative to `https://server.stumph-stevnsvig.dk/v1`
+    All paths are relative to `https://localhost:7182/v1`
 
     ## Features:
 
@@ -19,8 +19,8 @@ info:
   version: 1.0.0
 
 servers:
-  - url: https://server.stumph-stevnsvig.dk/v1
-    description: Staging server
+  - url: https://localhost:7182/v1
+    description: Development server
 paths:
   /board:
     post:

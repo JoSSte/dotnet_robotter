@@ -1,8 +1,8 @@
 namespace RobotWebApp.RobotBoard
 {
-    public class MoveDirector
+    public abstract class MoveDirector
     {
-        public Robot MoveRobot(Robot robot, Board board, string moveString)
+        public static Robot MoveRobot(Robot robot, Board board, string moveString)
         {
             foreach (char move in moveString)
             {
@@ -25,7 +25,7 @@ namespace RobotWebApp.RobotBoard
             return robot;
         }
 
-        private Direction TurnLeft(Direction currentDirection) =>
+        private static Direction TurnLeft(Direction currentDirection) =>
             currentDirection switch
             {
                 Direction.S => Direction.E,
@@ -35,7 +35,7 @@ namespace RobotWebApp.RobotBoard
                 _ => throw new ArgumentException($"Invalid direction: {currentDirection}")
             };
 
-        private Direction TurnRight(Direction currentDirection) =>
+        private static Direction TurnRight(Direction currentDirection) =>
             currentDirection switch
             {
                 Direction.N => Direction.E,
@@ -49,7 +49,7 @@ namespace RobotWebApp.RobotBoard
            Moves the robot forward in the direction it is currently facing, if the move is valid (not moving off the board).
            If the move is invalid, an exception is thrown.
         */
-        private CoordinateDirection MoveForward(Robot robot, Board board)
+        private static CoordinateDirection MoveForward(Robot robot, Board board)
         {
             Console.WriteLine($"Moving robot {robot.Id} forward from ({robot.CoordinateDirection.X}, {robot.CoordinateDirection.Y}) facing {robot.CoordinateDirection.Direction}");
             // Check if move is valid (not moving off the board)

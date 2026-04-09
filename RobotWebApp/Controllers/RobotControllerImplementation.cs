@@ -77,9 +77,21 @@ namespace RobotWebApp.RobotBoard
                 }
                 else
                 {
-                    // Implied TODOS:
-                    
-                    // Determine if move results in valid coordinate
+                    try
+                    {
+                        var board = _boards.Find(b => (int)b.Id == (int)robot.Id);
+                        if (board == null)
+                        {
+                            throw new ArgumentException($"Board {(int)robot.Id} not found for robot {robotId}.");
+                        }
+                        return Task.FromResult(MoveDirector.MoveRobot(robot, board, body).CoordinateDirection);
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        throw new ArgumentException("Invalid move command. would move robot past edge of board.");
+
+                    }
+
                     // If valid, move robot and update coordinates
 
                     // return coordinates
@@ -89,9 +101,10 @@ namespace RobotWebApp.RobotBoard
             }
         }
 
-        /**
-          * Validates that the move string only contains 'L', 'R', and 'F' characters.
-          */
+        /*
+            Validates that the move string only contains 'L', 'R', and 'F' characters.
+            Does NOT validate that the move string results in a valid move on the board, only that the string itself is valid.
+        */
         private bool IsValidMoveString(string moveString)
         {
             foreach (char c in moveString)

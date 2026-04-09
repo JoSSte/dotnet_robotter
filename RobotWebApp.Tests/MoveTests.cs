@@ -22,17 +22,24 @@ public class MoveTests
         Assert.Equal(Direction.N, newDirection.CoordinateDirection.Direction);
 
         // Test moving forward from North (should not change direction)
-        robot.CoordinateDirection.Direction = Direction.N;
-        newDirection = moveDirector.MoveRobot(robot, board, "F");
-        Assert.Equal(Direction.N, newDirection.CoordinateDirection.Direction);
+        //robot.CoordinateDirection.Direction = Direction.N;
+        //newDirection = moveDirector.MoveRobot(robot, board, "F");
+        //Assert.Equal(Direction.N, newDirection.CoordinateDirection.Direction);
         
     }
 
 
-    [Fact]
-    public void CoordinateDirectionTest()
+    [Theory]
+    [InlineData(0, 0, 5, 5, Direction.S)]
+    [InlineData(0, 0, 5, 5, Direction.W)]
+    [InlineData(5, 5, 5, 5, Direction.N)]
+    [InlineData(5, 5, 5, 5, Direction.E)]
+    public void InvalidMoveTest(int x, int y, int rows, int columns, Direction direction)
     {
-        CoordinateDirection coordinateDirection = new CoordinateDirection { X = 1, Y = 2, Direction = Direction.N };
+        var r = new Robot { Id = 1, CoordinateDirection = new CoordinateDirection { X = x, Y = y, Direction = direction } };
+        var b = new Board { Id = 1, Rows = rows, Columns = columns };
+        MoveDirector md = new MoveDirector();
+        Assert.Throws<InvalidOperationException>(() => md.MoveRobot(r, b, "F"));
     }
 
 

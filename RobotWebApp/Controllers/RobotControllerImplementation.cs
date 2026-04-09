@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RobotWebApp.Robot
+namespace RobotWebApp.RobotBoard
 {
     public class RobotControllerImpl : IRobotController
     {

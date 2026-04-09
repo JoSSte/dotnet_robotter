@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using RobotWebApp.Robot;
+using RobotWebApp.RobotBoard;
 
 var builder = WebApplication.CreateBuilder(args);
 
